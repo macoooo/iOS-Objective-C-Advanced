@@ -299,10 +299,10 @@ void _object_set_associative_reference(id object, void *key, id value, uintptr_t
     id new_value = value ? acquireValue(value, policy) : nil;
     {
         // 初始化一个manager
-        AssociationsManager manager;
+        AssociationsManager manager;//单例，内部保存一个全局的static AssociationsHashMap *_map;用于保存所有的关联对象
         AssociationsHashMap &associations(manager.associations());
         // 获取对象的DISGUISE值，作为AssociationsHashMap的key
-        disguised_ptr_t disguised_object = DISGUISE(object);
+        disguised_ptr_t disguised_object = DISGUISE(object);//取反对象地址作为accociative key
         if (new_value) {
             // value有值，不为nil
             // break any existing association.
@@ -313,6 +313,7 @@ void _object_set_associative_reference(id object, void *key, id value, uintptr_t
                 // 获取到ObjectAssociationMap(key是外部传来的key，value是关联对象类ObjcAssociation)
                 ObjectAssociationMap *refs = i->second;
                 // ObjectAssociationMap::iterator 类型的迭代器
+                //迭代器检查容器内元素并遍历元素的数据类型
                 ObjectAssociationMap::iterator j = refs->find(key);
                 if (j != refs->end()) {
                     // 原来该key对应的有关联对象

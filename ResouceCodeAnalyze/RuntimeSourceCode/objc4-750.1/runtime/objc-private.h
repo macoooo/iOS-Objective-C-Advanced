@@ -65,7 +65,7 @@ union isa_t {
     isa_t() { }
     isa_t(uintptr_t value) : bits(value) { }
 
-    Class cls;
+    Class cls;//只放对象类型太浪费，没有优化,下面的isa_t会进行优化
     // 相当于是unsigned long bits;
     uintptr_t bits;
 #if defined(ISA_BITFIELD)

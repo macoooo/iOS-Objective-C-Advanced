@@ -26,14 +26,14 @@ int main(int argc, const char * argv[]) {
     NSObject *obj0 = [[NSObject alloc] init];
     NSObject *obj1 __weak = obj0;
     printf("retain count = %ld\n",CFGetRetainCount((__bridge CFTypeRef)(obj0))); //结果为1
+    
     printf("retain count = %ld\n",CFGetRetainCount((__bridge CFTypeRef)(obj1)));
     @autoreleasepool {
         // insert code here...
         Person *p = [[Person alloc] init];
+        [p say];
         [p fly];
 
-        Class pcls = [Person class];
-        NSLog(@"p address = %p",pcls);
     }
     return 0;
 }

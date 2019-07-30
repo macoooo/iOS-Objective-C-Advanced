@@ -303,7 +303,7 @@ _objc_debug_taggedpointer_ext_classes:
 	UNWIND _objc_msgSend, NoFrame
 
 	cmp	p0, #0			// nil check and tagged pointer check
-#if SUPPORT_TAGGED_POINTERS
+#if SUPPORT_TAGGED_POINTERS，通过cmp x0, #0检测receiver是否为nil，如果为空进入下面
 	b.le	LNilOrTagged		//  (MSB tagged pointer looks negative)
 #else
 	b.eq	LReturnZero
@@ -312,8 +312,8 @@ _objc_debug_taggedpointer_ext_classes:
 	GetClassFromIsa_p16 p13		// p16 = class
 LGetIsaDone:
 	CacheLookup NORMAL		// calls imp or objc_msgSend_uncached
-
-#if SUPPORT_TAGGED_POINTERS
+//在这个函数中，首先查找class的cache，如果未命中，则进入objc_msgSend_uncached
+#if SUPPORT_TAGGED_POINTERS，
 LNilOrTagged:
 	b.eq	LReturnZero		// nil check
 

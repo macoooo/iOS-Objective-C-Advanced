@@ -269,6 +269,7 @@ static id
 storeWeak(id *location, objc_object *newObj)//更新指针指向，创建对应的弱引用表
 {
     assert(haveOld  ||  haveNew);
+    printf("haveNew=%d haveOld=%d\n", haveNew, haveOld);
     if (!haveNew) assert(newObj == nil);
 
     Class previouslyInitializedClass = nil;
@@ -693,7 +694,7 @@ class AutoreleasePoolPage
     AutoreleasePoolPage * const parent;
     // 指向后一个节点
     AutoreleasePoolPage *child;
-    uint32_t const depth;
+    uint32_t const depth;//page的深度，首次为0，以后每次初始化一个page都加1
     uint32_t hiwat;
 
     // SIZE-sizeof(*this) bytes of contents follow

@@ -7,6 +7,7 @@
 
 #import "Person+Fly.h"
 
+
 @implementation Person (Fly)
 
 +  (void)load {
@@ -14,6 +15,7 @@
 }
 
 - (void)setName:(NSString *)name {
+    //_name = name;
     objc_setAssociatedObject(self, "name", name, OBJC_ASSOCIATION_COPY);
 }
 

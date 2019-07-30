@@ -23,16 +23,23 @@ NSString * binaryWithInteger(NSUInteger decInt){
 
 int main(int argc, const char * argv[]) {
     // 整个程序都包含在一个@autoreleasepool中
-    NSObject *obj0 = [[NSObject alloc] init];
-    NSObject *obj1 __weak = obj0;
-    printf("retain count = %ld\n",CFGetRetainCount((__bridge CFTypeRef)(obj0))); //结果为1
-    
-    printf("retain count = %ld\n",CFGetRetainCount((__bridge CFTypeRef)(obj1)));
+    //id __strong obj = [NSMutableArray array];
+//    NSObject *obj0 = [[NSObject alloc] init];
+//    NSObject *obj1 __weak = obj0;
+//    printf("retain count = %ld\n",CFGetRetainCount((__bridge CFTypeRef)(obj0))); //结果为1
+//
+//    printf("retain count = %ld\n",CFGetRetainCount((__bridge CFTypeRef)(obj1)));
     @autoreleasepool {
-        // insert code here...
-        Person *p = [[Person alloc] init];
-        [p say];
-        [p fly];
+        
+        NSObject *obj = [[NSObject alloc] init];
+        NSObject __weak *obj1 = obj;
+        NSObject *obj2 = obj1;
+//        //id __weak obj2;
+//        // insert code here...
+//        Person *p = [[Person alloc] init];
+//        [p say];
+//        [p fly];
+//        Person *personTwo = [Person somePerson];
 
     }
     return 0;

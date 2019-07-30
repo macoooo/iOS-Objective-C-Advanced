@@ -139,7 +139,7 @@ static void append_referrer(weak_entry_t *entry, objc_object **new_referrer)
     }
 
     assert(entry->out_of_line());
-//如果我们有1000个对象做了weak操作，那么weak_table的大小还会自动扩张或者缩小，规则如下：插入之前判断使用量超过3/4，则扩张容量x2
+
     if (entry->num_refs >= TABLE_SIZE(entry) * 3/4) {
         return grow_refs_and_insert(entry, new_referrer);
     }
@@ -266,7 +266,7 @@ static void weak_resize(weak_table_t *weak_table, size_t new_size)
 static void weak_grow_maybe(weak_table_t *weak_table)
 {
     size_t old_size = TABLE_SIZE(weak_table);
-
+//如果我们有1000个对象做了weak操作，那么weak_table的大小还会自动扩张或者缩小，规则如下：插入之前判断使用量超过3/4，则扩张容量x2
     // Grow if at least 3/4 full.
     if (weak_table->num_entries >= old_size * 3 / 4) {
         weak_resize(weak_table, old_size ? old_size*2 : 64);
@@ -354,7 +354,7 @@ void
 weak_unregister_no_lock(weak_table_t *weak_table, id referent_id, 
                         id *referrer_id)
 {
-    objc_object *referent = (objc_object *)referent_id;//weak指针指向的对象地址
+    objc_object *referent = (objc_object *)referent_id;//weak指针referrer_id本来指向的对象地址
     objc_object **referrer = (objc_object **)referrer_id;//weak指针的地址
 
     weak_entry_t *entry;
@@ -397,7 +397,7 @@ id
 weak_register_no_lock(weak_table_t *weak_table, id referent_id, 
                       id *referrer_id, bool crashIfDeallocating)
 {
-    objc_object *referent = (objc_object *)referent_id;
+    objc_object *referent = (objc_object *)referent_id;//新对象地址
     objc_object **referrer = (objc_object **)referrer_id;
 
     if (!referent  ||  referent->isTaggedPointer()) return referent_id;
@@ -432,10 +432,11 @@ weak_register_no_lock(weak_table_t *weak_table, id referent_id,
 
     // now remember it and where it is being stored
     weak_entry_t *entry;
+    //已经有entry，也是有其他弱引用
     if ((entry = weak_entry_for_referent(weak_table, referent))) {
         append_referrer(entry, referrer);
     } 
-    else {
+    else {//没有entry
         weak_entry_t new_entry(referent, referrer);
         weak_grow_maybe(weak_table);
         weak_entry_insert(weak_table, &new_entry);

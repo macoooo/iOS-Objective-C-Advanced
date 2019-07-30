@@ -14,4 +14,8 @@
     NSLog(@"hello,world!");
 }
 
++ (Person *)somePerson {
+    Person *person = [[Person alloc] init];
+    return person;
+}
 @end

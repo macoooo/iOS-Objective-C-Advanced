@@ -1847,9 +1847,9 @@ struct objc_ivar_list {
 
 
 struct objc_method {
-    SEL _Nonnull method_name                                 OBJC2_UNAVAILABLE;
+    SEL _Nonnull method_name                                 OBJC2_UNAVAILABLE;//方法名，SEL被称之为消息选择器，它相当于一个key，在类的消息列表中，可以根据这个key，来查找到对应的消息实现
     char * _Nullable method_types                            OBJC2_UNAVAILABLE;
-    IMP _Nonnull method_imp                                  OBJC2_UNAVAILABLE;
+    IMP _Nonnull method_imp                                  OBJC2_UNAVAILABLE;//IMP是由编译器生成的，如果我们知道了IMP的地址，则可以绕过runtime消息发送的过程，直接调用函数实现。关于这一点，我们稍后会谈到
 }                                                            OBJC2_UNAVAILABLE;
 
 struct objc_method_list {

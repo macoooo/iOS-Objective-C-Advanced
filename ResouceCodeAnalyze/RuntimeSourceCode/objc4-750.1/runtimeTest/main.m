@@ -31,15 +31,16 @@ int main(int argc, const char * argv[]) {
 //    printf("retain count = %ld\n",CFGetRetainCount((__bridge CFTypeRef)(obj1)));
     @autoreleasepool {
         
-        NSObject *obj = [[NSObject alloc] init];
-        NSObject __weak *obj1 = obj;
-        NSObject *obj2 = obj1;
+//        NSObject *obj = [[NSObject alloc] init];
+//        NSObject __weak *obj1 = obj;
+//        NSObject *obj2 = obj1;
 //        //id __weak obj2;
 //        // insert code here...
-//        Person *p = [[Person alloc] init];
-//        [p say];
-//        [p fly];
-//        Person *personTwo = [Person somePerson];
+        Person *p = [[Person alloc] init];
+        //[p addObserver:p forKeyPath:@"name" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+        [p say];
+        [p fly];
+        Person *personTwo = [Person somePerson];
 
     }
     return 0;
